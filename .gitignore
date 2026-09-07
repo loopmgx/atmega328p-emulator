@@ -1,0 +1,7 @@
+*.o
+.out
+a.out
+main
+.vscode
+todo.txt
+input/*
