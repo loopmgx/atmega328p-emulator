@@ -1,0 +1,8 @@
+```text
+Hello, this is a test file for the VM binary loader.
+1234567890
+ABCDEFGHIJKLMNOPQRSTUVWXYZ
+abcdefghijklmnopqrstuvwxyz
+!@#$%^&*()_+-=[]{};:',.<>/?
+END
+```
