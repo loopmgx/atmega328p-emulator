@@ -7,13 +7,13 @@
 int bin_loader(void* dst, const char* path, size_t size)
 {
     if (dst == NULL || path == NULL) {
-        return warning("NULL pointer given!", __func__, -1);
+        return warning(-1, __func__, "NULL pointer given!");
     }
 
     FILE* fp = fopen(path, "rb");
  
     if (fp == NULL) {
-        return warning("File not found!", __func__, -2);
+        return warning(-2, __func__, "File not found!");
     }
 
     byte_t* pdst = dst;
@@ -32,7 +32,7 @@ int bin_loader(void* dst, const char* path, size_t size)
     fclose(fp);
 
     if (byte != EOF) {
-        return warning("Files is too large!", __func__, -3);
+        return warning(-3, __func__, "Files is too large!");
     }
 
     return 0;

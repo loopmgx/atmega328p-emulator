@@ -6,7 +6,7 @@ OBJ = build/main.o    \
 	  build/error.o
 
 
-CFLAGS_TEST = -Wall -Wextra -Wconversion -Wsign-conversion -g -O0
+CFLAGS_TEST = -Wall -Wextra -Wconversion -Wsign-conversion -DWARNING_MODE -g -O0
 
 TEST_OBJ = build/main_test.o     \
 		   build/error_test.o    \

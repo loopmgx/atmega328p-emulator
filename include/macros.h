@@ -1,6 +1,12 @@
 #ifndef MACROS_H
 #define MACROS_H
 
+#include <limits.h>
+
+#if CHAR_BIT != 8
+    #error "Unsupported architecture: CHAR_BIT must be 8"
+#endif
+
 // size (in bytes) of data memory (SRAM + registers)
 #define DATA_MEM_SIZE (0x0900u)
 
@@ -12,5 +18,7 @@
 
 // number of bits in single byte
 #define EIGHT_BITS    (8u)
+
+#define SREG_ADRS     (0x05F)
 
 #endif //MACROS_H
