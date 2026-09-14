@@ -30,6 +30,9 @@ typedef struct {
 
 }VM;
 
+void*  reg_access   (VM*,  reg_t);
+void* sram_access   (VM*, adrs_t);
+
 
 
 #endif // VM_H

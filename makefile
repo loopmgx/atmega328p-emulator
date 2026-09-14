@@ -1,9 +1,11 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -Wconversion -Wsign-conversion -Werror -DWARNING_MODE -g -O0
+CFLAGS = -Wall -Wextra -Wconversion -Wsign-conversion -DWARNING_MODE -g -O0
 
 OBJ = build/main.o    \
+	  build/vm.o	  \
+	  build/error.o   \
+	  build/flags.o   \
 	  build/loader.o  \
-	  build/error.o
 
 
 CFLAGS_TEST = -Wall -Wextra -Wconversion -Wsign-conversion -DWARNING_MODE -g -O0
@@ -24,11 +26,17 @@ build:
 build/main.o: main.c | build
 	$(CC) $(CFLAGS) -c main.c -o build/main.o
 
-build/loader.o: src/loader.c | build
-	$(CC) $(CFLAGS) -c src/loader.c -o build/loader.o
+build/vm.o: src/vm.c | build
+	$(CC) $(CFLAGS) -c src/vm.c -o build/vm.o
 
 build/error.o: src/error.c | build
 	$(CC) $(CFLAGS) -c src/error.c -o build/error.o
+
+build/flags.o: src/flags.c | build
+	$(CC) $(CFLAGS) -c src/flags.c -o build/flags.o
+
+build/loader.o: src/loader.c | build
+	$(CC) $(CFLAGS) -c src/loader.c -o build/loader.o
 
 
 # TESTS

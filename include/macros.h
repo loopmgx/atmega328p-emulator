@@ -10,8 +10,12 @@
 // size (in bytes) of data memory (SRAM + registers)
 #define DATA_MEM_SIZE (0x0900u)
 
+#define SRAM_SIZE     (0x0800u)
+
+#define SRAM_OFFSET   (0x0100u)
+
 // number (in words) of Program (flash) memory
-#define PROG_MEM_SIZE (16384u)
+#define PROG_MEM_SIZE (0x4000u)
 
 // size (in bytes) of non-volatile eeprom memory
 #define EEPROM_SIZE   (1024u)
