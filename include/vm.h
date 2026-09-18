@@ -3,6 +3,7 @@
 
 #include "./types.h"
 #include "./macros.h"
+#include "./instruction.h"
 #include <stdint.h>
 
 /**
@@ -26,9 +27,15 @@ typedef struct {
     byte_t eeprom[EEPROM_SIZE];
 
     // Program counter
-    word_t PC;
+    word_t* PC;
 
 }VM;
+
+void vm_init        (VM*, const char* path);
+void vm_run         (VM*);
+void vm_step        (VM*);
+void vm_execute     (VM*, Instruction);
+void vm_advance     (VM*, Instruction);
 
 void*  reg_access   (VM*,  reg_t);
 void* sram_access   (VM*, adrs_t);

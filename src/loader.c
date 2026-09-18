@@ -4,7 +4,7 @@
 #include <stddef.h>
 #include <stdio.h>
 
-int bin_loader(void* dst, const char* path, size_t size)
+int bin_loader(void* dst, const char* path, size_t max_size)
 {
     if (dst == NULL || path == NULL) {
         return warning(-1, __func__, "NULL pointer given!");
@@ -18,7 +18,7 @@ int bin_loader(void* dst, const char* path, size_t size)
 
     byte_t* pdst = dst;
     int byte;
-    for(size_t i = 0; i < size; i++) {
+    for(size_t i = 0; i < max_size; i++) {
         byte = fgetc(fp);
         if(byte == EOF) {
             fclose(fp);
