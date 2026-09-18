@@ -6,9 +6,10 @@ OBJ = build/main.o    \
 	  build/error.o   \
 	  build/flags.o   \
 	  build/loader.o  \
+	  build/instruction.o
 
 
-CFLAGS_TEST = -Wall -Wextra -Wconversion -Wsign-conversion -DWARNING_MODE -g -O0
+CFLAGS_TEST = -Wall -Wextra -Wconversion -Wsign-conversion -g -O0
 
 TEST_OBJ = build/main_test.o     \
 		   build/error_test.o    \
@@ -38,6 +39,8 @@ build/flags.o: src/flags.c | build
 build/loader.o: src/loader.c | build
 	$(CC) $(CFLAGS) -c src/loader.c -o build/loader.o
 
+build/instruction.o: src/instruction.c | build
+	$(CC) $(CFLAGS) -c src/instruction.c -o build/instruction.o
 
 # TESTS
 # ////////////////////////////////////////////////////////////

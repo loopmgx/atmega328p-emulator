@@ -11,6 +11,8 @@ typedef uint8_t  byte_t;
 typedef uint16_t word_t;
 // address type
 typedef uint16_t adrs_t;
+// bit shift type
+typedef uint8_t   bit_t;
 
 
 #endif // TYPES_H
