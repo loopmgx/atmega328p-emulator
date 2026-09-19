@@ -17,6 +17,7 @@ typedef enum {
 }ptr_t;
 
 typedef enum {
+    INS_ERROR,
     INS_ADC,
     INS_ADD,
     INS_ADIW,
@@ -169,5 +170,7 @@ typedef struct {
 }Instruction;
 
 Instruction decode(word_t*, word_t* limit);
+Opcode identify(word_t*);
+
 
 #endif // OPCODE_H

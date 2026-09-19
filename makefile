@@ -15,6 +15,9 @@ TEST_OBJ = build/main_test.o     \
 		   build/error_test.o    \
 		   build/loader.o        \
 		   build/loader_test.o   \
+		   build/instruction.o   \
+		   build/instruction_test.o \
+		   build/test_helpers.o
 
 all: a.out
 
@@ -56,6 +59,13 @@ build/loader_test.o: tests/loader/loader_test.c | build
 
 build/error_test.o: src/error.c | build
 	$(CC) $(CFLAGS_TEST) -c src/error.c -o build/error_test.o
+
+build/instruction_test.o: tests/instruction/instruction_test.c | build
+	$(CC) $(CFLAGS_TEST) -c tests/instruction/instruction_test.c -o build/instruction_test.o
+
+build/test_helpers.o: tests/test_helpers.c | build
+	$(CC) $(CFLAGS_TEST) -c tests/test_helpers.c -o build/test_helpers.o
+
 
 
 clean:

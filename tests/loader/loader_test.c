@@ -1,5 +1,6 @@
 #include "./loader_test.h"
 #include "./../../include/loader.h"
+#include "./../test_helpers.h"
 #include <assert.h>
 #include <string.h>
 #include <stdbool.h>
@@ -41,4 +42,6 @@ void loader_test(void)
         "```";
 
     assert(!memcmp(arr4, expected4, sizeof(expected4) - 1));
+
+    print_success(__func__);
 }
