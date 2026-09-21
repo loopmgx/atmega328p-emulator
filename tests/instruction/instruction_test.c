@@ -38,5 +38,72 @@ void identify_test()
     w = 0x7FFF;
     assert(identify(&w) == INS_ANDI);
 
+    // ASR
+    w = 0x9405;
+    assert(identify(&w) == INS_ASR);
+    w = 0x95F5;
+    assert(identify(&w) == INS_ASR);
+
+    // BCLR
+    w = 0x9488;
+    assert(identify(&w) == INS_BCLR);
+    w = 0x94F8;
+    assert(identify(&w) == INS_BCLR);
+
+    // BLD
+    w = 0xF800;
+    assert(identify(&w) == INS_BLD);
+    w = 0xF9F7;
+    assert(identify(&w) == INS_BLD);
+
+    w = 0xF400;
+    assert(identify(&w) == INS_BRBC);
+    w = 0xF7FF;
+    assert(identify(&w) == INS_BRBC);
+
+    w = 0xF000;
+    assert(identify(&w) == INS_BRBS);
+    w = 0xF3FF;
+    assert(identify(&w) == INS_BRBS);
+
+    // BREAK
+    w = 0x9598;
+    assert(identify(&w) == INS_BREAK);
+
+    w = 0xF001;
+    assert(identify(&w) == INS_BREQ);
+    w = 0xF3F9;
+    assert(identify(&w) == INS_BREQ);
+
+    // BRGE
+    w = 0xF404;
+    assert(identify(&w) == INS_BRGE);
+    w = 0xF7FC;
+    assert(identify(&w) == INS_BRGE);
+
+    // BRHC
+    w = 0xF405;
+    assert(identify(&w) == INS_BRHC);
+    w = 0xF7FD;
+    assert(identify(&w) == INS_BRHC);
+
+    // BRHS
+    w = 0xF005;
+    assert(identify(&w) == INS_BRHS);
+    w = 0xF3FD;
+    assert(identify(&w) == INS_BRHS);
+
+    // BSET
+    w = 0x9409;
+    assert(identify(&w) == INS_BSET);
+    w = 0x9479;
+    assert(identify(&w) == INS_BSET);
+
+    // BST
+    w = 0xFA00;
+    assert(identify(&w) == INS_BST);
+    w = 0xFBF7;
+    assert(identify(&w) == INS_BST);
+
     print_success(__func__);
 }
