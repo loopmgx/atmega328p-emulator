@@ -94,9 +94,9 @@ void identify_test()
     assert(identify(&w) == INS_BRHS);
 
     // BSET
-    w = 0x9409;
+    w = 0x9408;
     assert(identify(&w) == INS_BSET);
-    w = 0x9479;
+    w = 0x9478;
     assert(identify(&w) == INS_BSET);
 
     // BST
@@ -104,6 +104,188 @@ void identify_test()
     assert(identify(&w) == INS_BST);
     w = 0xFBF7;
     assert(identify(&w) == INS_BST);
+
+    // CALL
+    w = 0x940E;
+    assert(identify(&w) == INS_CALL);
+    w = 0x95FF;
+    assert(identify(&w) == INS_CALL);
+
+    w = 0x9800; // A = 0, b = 0
+    assert(identify(&w) == INS_CBI);
+    w = 0x98FF; // A = 31, b = 7
+    assert(identify(&w) == INS_CBI);
+
+    w = 0x9800; // A = 0, b = 0
+    assert(identify(&w) == INS_CBI);
+    w = 0x98FF; // A = 31, b = 7
+    assert(identify(&w) == INS_CBI);
+
+    w = 0x9400;
+    assert(identify(&w) == INS_COM);
+    w = 0x95F0;
+    assert(identify(&w) == INS_COM);
+
+    w = 0x1400;
+    assert(identify(&w) == INS_CP);
+    w = 0x17FF;
+    assert(identify(&w) == INS_CP);
+
+    w = 0x0400;
+    assert(identify(&w) == INS_CPC);
+    w = 0x07FF;
+    assert(identify(&w) == INS_CPC);
+
+    w = 0x3000;
+    assert(identify(&w) == INS_CPI);
+    w = 0x3FFF;
+    assert(identify(&w) == INS_CPI);
+
+    w = 0x3000;
+    assert(identify(&w) == INS_CPI);
+    w = 0x3FFF;
+    assert(identify(&w) == INS_CPI);
+
+    w = 0x1000;
+    assert(identify(&w) == INS_CPSE);
+    w = 0x13FF;
+    assert(identify(&w) == INS_CPSE);
+
+    w = 0x940A;
+    assert(identify(&w) == INS_DEC);
+    w = 0x95FA;
+    assert(identify(&w) == INS_DEC);
+
+    w = 0x940B;
+    assert(identify(&w) == INS_DES);
+    w = 0x94FB;
+    assert(identify(&w) == INS_DES);
+
+    w = 0x2400;
+    assert(identify(&w) == INS_EOR);
+    w = 0x27FF;
+    assert(identify(&w) == INS_EOR);
+
+    w = 0x0308;
+    assert(identify(&w) == INS_FMUL);
+    w = 0x037F;
+    assert(identify(&w) == INS_FMUL);
+
+    w = 0x0380;
+    assert(identify(&w) == INS_FMULS);
+    w = 0x03F7;
+    assert(identify(&w) == INS_FMULS);
+
+    w = 0x0388;
+    assert(identify(&w) == INS_FMULSU);
+    w = 0x03FF;
+    assert(identify(&w) == INS_FMULSU);
+
+    w = 0x9509;
+    assert(identify(&w) == INS_ICALL);
+
+    w = 0x9409;
+    assert(identify(&w) == INS_IJMP);
+
+    w = 0xB000;
+    assert(identify(&w) == INS_IN);
+    w = 0xB7FF;
+    assert(identify(&w) == INS_IN);
+
+    w = 0x9403;
+    assert(identify(&w) == INS_INC);
+    w = 0x95F3;
+    assert(identify(&w) == INS_INC);
+
+    w = 0x940C;
+    assert(identify(&w) == INS_JMP);
+    w = 0x95FD;
+    assert(identify(&w) == INS_JMP);
+
+    w = 0x9206;
+    assert(identify(&w) == INS_LAC);
+    w = 0x93F6;
+    assert(identify(&w) == INS_LAC);
+
+    w = 0x9205;
+    assert(identify(&w) == INS_LAS);
+    w = 0x93F5;
+    assert(identify(&w) == INS_LAS);
+
+    w = 0x9205;
+    assert(identify(&w) == INS_LAS);
+    w = 0x93F5;
+    assert(identify(&w) == INS_LAS);
+    
+    w = 0x900C;
+    assert(identify(&w) == INS_LD);
+    w = 0x91FC;
+    assert(identify(&w) == INS_LD);
+
+    w = 0x900D;
+    assert(identify(&w) == INS_LD);
+    w = 0x91FD;
+    assert(identify(&w) == INS_LD);
+
+    w = 0x900E;
+    assert(identify(&w) == INS_LD);
+    w = 0x91FE;
+    assert(identify(&w) == INS_LD);
+
+    w = 0x8008;
+    assert(identify(&w) == INS_LD);
+    w = 0x81F8;
+    assert(identify(&w) == INS_LD);
+
+    w = 0x9009;
+    assert(identify(&w) == INS_LD);
+    w = 0x91F9;
+    assert(identify(&w) == INS_LD);
+
+    w = 0x900A;
+    assert(identify(&w) == INS_LD);
+    w = 0x91FA;
+    assert(identify(&w) == INS_LD);
+
+    w = 0x8008;
+    assert(identify(&w) == INS_LD);
+    w = 0xADFF;
+    assert(identify(&w) == INS_LD);
+
+    w = 0x8000;
+    assert(identify(&w) == INS_LD);
+    w = 0x81F0; 
+    assert(identify(&w) == INS_LD);
+
+    w = 0x9001;
+    assert(identify(&w) == INS_LD);
+    w = 0x91F1; 
+    assert(identify(&w) == INS_LD);
+
+    w = 0x9002;
+    assert(identify(&w) == INS_LD);
+    w = 0x91F2;
+    assert(identify(&w) == INS_LD);
+
+    w = 0x8000;
+    assert(identify(&w) == INS_LD);
+    w = 0xADF7;
+    assert(identify(&w) == INS_LD);
+
+    w = 0xE000;
+    assert(identify(&w) == INS_LDI);
+    w = 0xEFFF;
+    assert(identify(&w) == INS_LDI);
+
+    w = 0x9000;
+    assert(identify(&w) == INS_LDS);
+    w = 0x91F0;
+    assert(identify(&w) == INS_LDS);
+    
+    w = 0xA000;
+    assert(identify(&w) == INS_LDS);
+    w = 0xA7FF;
+    assert(identify(&w) == INS_LDS);
 
     print_success(__func__);
 }
