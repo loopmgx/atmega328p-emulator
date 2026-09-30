@@ -8,7 +8,99 @@ Instruction decode(word_t* w, word_t* limit)
         error(1, __func__, "program memory limit reached!");
     }
 
-    
+    Instruction ins;
+
+    ins.type = identify(w);
+    decode_operands(&ins);
+
+    return ins;
+}
+
+void decode_operands(Instruction *ins)
+{
+
+    // to do LD, LPM
+
+    // xxxx xxrd dddd rrrr
+    if(
+        ins->type == INS_ADC  ||
+        ins->type == INS_ADD  ||
+        ins->type == INS_AND  ||
+        ins->type == INS_CP   ||
+        ins->type == INS_CPC  ||
+        ins->type == INS_CPSE ||
+        ins->type == INS_EOR
+
+    ) {}
+
+    // xxxx xxxx xddd xrrr
+    if(
+        ins->type == INS_FMUL   ||
+        ins->type == INS_FMULS  ||
+        ins->type == INS_FMULSU
+    ) {}
+
+    // xxxx xxxx KKdd KKKK
+    if(
+        ins->type == INS_ADIW
+    ) {}
+
+    // xxxx KKKK dddd KKKK
+    if(
+        ins->type == INS_ANDI ||
+        ins->type == INS_CPI  ||
+        ins->type == INS_LDI
+    ) {}
+
+    // xxxx xxxd dddd xxxx
+    if(
+        ins->type == INS_ASR ||
+        ins->type == INS_COM ||
+        ins->type == INS_DEC ||
+        ins->type == INS_INC
+    ) {}
+
+    // xxxx xxxx xsss xxxx
+    if(
+        ins->type == INS_BCLR ||
+        ins->type == INS_BSET
+    ) {}
+
+    // xxxx xxxd dddd xbbb
+    if(
+        ins->type == INS_BLD ||
+        ins->type == INS_BST
+    ) {}
+
+    // xxxx xxkk kkkk ksss
+    if(
+        ins->type == INS_BRBC ||
+        ins->type == INS_BRBS
+    ) {}
+
+    // xxxx xxxk kkkk xxxk . kkkk kkkk kkkk kkkk
+    if(
+        ins->type == INS_CALL ||
+        ins->type == INS_JMP
+    ) {}
+
+    // xxxx xxxd dddd xxxx . kkkk kkkk kkkk kkkk
+    if(
+        ins->type == INS_LDS
+    ) {}
+
+    // xxxx xxxx AAAA Abbb
+    if(
+        ins->type == INS_CBI
+    ) {}
+
+    // xxxx xxxx KKKK xxxx
+    if(
+        ins->type == INS_DES
+    ) {}
+
+
+
 }
 
 Opcode identify(word_t* w)

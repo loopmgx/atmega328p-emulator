@@ -174,8 +174,9 @@ typedef struct {
 
 }Instruction;
 
-Instruction decode(word_t*, word_t* limit);
-Opcode identify(word_t*);
+Instruction decode (word_t*, word_t* limit);
+void decode_operands (Instruction*);
+Opcode identify (word_t*);
 
 
 #endif // OPCODE_H
