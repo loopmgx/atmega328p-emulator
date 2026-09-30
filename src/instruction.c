@@ -18,8 +18,7 @@ Instruction decode(word_t* w, word_t* limit)
 
 void decode_operands(Instruction *ins)
 {
-
-    // to do LD, LPM
+    // to do LD, LPM, ST
 
     // xxxx xxrd dddd rrrr
     if(
@@ -29,8 +28,24 @@ void decode_operands(Instruction *ins)
         ins->type == INS_CP   ||
         ins->type == INS_CPC  ||
         ins->type == INS_CPSE ||
-        ins->type == INS_EOR
+        ins->type == INS_EOR  ||
+        ins->type == INS_MOV  ||
+        ins->type == INS_MUL  ||
+        ins->type == INS_OR   ||
+        ins->type == INS_SBC  ||
+        ins->type == INS_SUB
 
+    ) {}
+
+    // xxxx xxxx dddd rrrr
+    if(
+        ins->type == INS_MOVW ||
+        ins->type == INS_MULS
+    ) {}
+
+    // xxxx xxxx xddd xrrr
+    if(
+        ins->type == INS_MULSU
     ) {}
 
     // xxxx xxxx xddd xrrr
@@ -42,22 +57,33 @@ void decode_operands(Instruction *ins)
 
     // xxxx xxxx KKdd KKKK
     if(
-        ins->type == INS_ADIW
+        ins->type == INS_ADIW ||
+        ins->type == INS_SBIW
     ) {}
 
     // xxxx KKKK dddd KKKK
     if(
         ins->type == INS_ANDI ||
         ins->type == INS_CPI  ||
-        ins->type == INS_LDI
+        ins->type == INS_LDI  ||
+        ins->type == INS_ORI  ||
+        ins->type == INS_SBCI || 
+        ins->type == INS_SBR  ||
+        ins->type == INS_SUBI
     ) {}
 
     // xxxx xxxd dddd xxxx
     if(
-        ins->type == INS_ASR ||
-        ins->type == INS_COM ||
-        ins->type == INS_DEC ||
-        ins->type == INS_INC
+        ins->type == INS_ASR  ||
+        ins->type == INS_COM  ||
+        ins->type == INS_DEC  ||
+        ins->type == INS_INC  ||
+        ins->type == INS_LSR  ||
+        ins->type == INS_NEG  ||
+        ins->type == INS_POP  ||
+        ins->type == INS_PUSH ||
+        ins->type == INS_ROR  ||
+        ins->type == INS_SWAP
     ) {}
 
     // xxxx xxxx xsss xxxx
@@ -86,12 +112,16 @@ void decode_operands(Instruction *ins)
 
     // xxxx xxxd dddd xxxx . kkkk kkkk kkkk kkkk
     if(
-        ins->type == INS_LDS
+        ins->type == INS_LDS ||
+        ins->type == INS_STS
     ) {}
 
     // xxxx xxxx AAAA Abbb
     if(
-        ins->type == INS_CBI
+        ins->type == INS_CBI  ||
+        ins->type == INS_SBI  ||
+        ins->type == INS_SBIC ||
+        ins->type == INS_SBIS
     ) {}
 
     // xxxx xxxx KKKK xxxx
@@ -99,6 +129,27 @@ void decode_operands(Instruction *ins)
         ins->type == INS_DES
     ) {}
 
+    // xxxx xxdd dddd dddd
+    if(
+        ins->type == INS_LSL ||
+        ins->type == INS_ROL 
+    ) {}
+
+    // xxxx xAAr rrrr AAAA
+    if(
+        ins->type == INS_OUT
+    ) {}
+
+    // xxxx kkkk kkkk kkkk
+    if(
+        ins->type == INS_RCALL ||
+        ins->type == INS_RJMP
+    ) {}
+
+    // xxxx xxxr rrrr xbbb
+    if(
+        ins->type == INS_SBRS
+    ) {}
 
 
 }
