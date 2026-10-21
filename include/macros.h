@@ -25,4 +25,9 @@
 
 #define SREG_ADRS     (0x05F)
 
+// aboslute adresses of double regs pointers in data memory (low bytes)
+#define X_PTR_ADRS    (0x001A)
+#define Y_PTR_ADRS    (0x001C)
+#define Z_PTR_ADRS    (0x001E)
+
 #endif //MACROS_H

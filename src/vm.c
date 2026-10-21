@@ -2,6 +2,7 @@
 #include "./../include/error.h"
 #include "./../include/loader.h"
 #include "./../include/instruction.h"
+#include <limits.h>
 #include <stdbool.h>
 #include <stdlib.h>
 
@@ -53,4 +54,64 @@ void* sram_access (VM* vm, adrs_t adrs) {
     }
 
     return &vm->data_mem[adrs];
+}
+
+adrs_t get_x (VM* vm) 
+{
+    adrs_t adrs;
+    adrs = vm->data_mem[X_PTR_ADRS];
+    adrs |= vm->data_mem[X_PTR_ADRS + 1] << (sizeof(byte_t) * CHAR_BIT);
+    return adrs;
+}
+
+adrs_t get_y (VM* vm)
+{
+    adrs_t adrs;
+    adrs = vm->data_mem[Y_PTR_ADRS];
+    adrs |= vm->data_mem[Y_PTR_ADRS + 1] << (sizeof(byte_t) * CHAR_BIT);
+    return adrs;
+}
+
+adrs_t get_z (VM* vm) 
+{
+    adrs_t adrs;
+    adrs = vm->data_mem[Z_PTR_ADRS];
+    adrs |= vm->data_mem[Z_PTR_ADRS + 1] << (sizeof(byte_t) * CHAR_BIT);
+    return adrs;
+}
+
+void set_x (VM* vm, adrs_t val) 
+{
+    byte_t low;
+    byte_t high;
+
+    low = val;
+    high = val >> sizeof(byte_t) * CHAR_BIT;
+    
+    vm->data_mem[X_PTR_ADRS] = low;
+    vm->data_mem[X_PTR_ADRS + 1] = high;
+}
+
+void set_y (VM* vm, adrs_t val) 
+{
+    byte_t low;
+    byte_t high;
+
+    low = val;
+    high = val >> sizeof(byte_t) * CHAR_BIT;
+    
+    vm->data_mem[Y_PTR_ADRS] = low;
+    vm->data_mem[Y_PTR_ADRS + 1] = high;
+}
+
+void set_z (VM* vm, adrs_t val)
+{
+    byte_t low;
+    byte_t high;
+
+    low = val;
+    high = val >> sizeof(byte_t) * CHAR_BIT;
+    
+    vm->data_mem[Z_PTR_ADRS] = low;
+    vm->data_mem[Z_PTR_ADRS + 1] = high;
 }

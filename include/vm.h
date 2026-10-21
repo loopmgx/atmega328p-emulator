@@ -31,15 +31,24 @@ typedef struct {
 
 }VM;
 
-void vm_init        (VM*, const char* path);
-void vm_run         (VM*);
-void vm_step        (VM*);
-void vm_execute     (VM*, Instruction);
-void vm_advance     (VM*, Instruction);
+void    vm_init        (VM*, const char* path);
+void    vm_run         (VM*);
+void    vm_step        (VM*);
+void    vm_execute     (VM*, Instruction);
+void    vm_advance     (VM*, Instruction);
 
-void*  reg_access   (VM*,  reg_t);
-void* sram_access   (VM*, adrs_t);
+void*   reg_access     (VM*,  reg_t);
+void*   sram_access    (VM*, adrs_t);
 
+void    ptr_inc_dec    (VM*, ptr_t);
+void    ptr_add_q      (VM*, ptr_t, uint8_t q);
 
+// functions for manipulating with double adress registers (X, Y, Z)
+adrs_t  get_x          (VM*);
+adrs_t  get_y          (VM*);
+adrs_t  get_z          (VM*);
+void    set_x          (VM*, adrs_t val);
+void    set_y          (VM*, adrs_t val);
+void    set_z          (VM*, adrs_t val);
 
 #endif // VM_H
