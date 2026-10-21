@@ -6,14 +6,22 @@
 
 typedef enum {
     PTR_X,
-    PTR_X_P,
-    PTR_X_M,
+    PTR_X_P, // X+
+    PTR_X_M, // X-
+    PTR_X_Q, // X+q
     PTR_Y,
     PTR_Y_P,
     PTR_Y_M,
+    PTR_Y_Q,
     PTR_Z,
     PTR_Z_P,
-    PTR_Z_M
+    PTR_Z_M,
+    PTR_Z_Q
+}ptr_type;
+
+typedef struct {
+    ptr_type type;
+    uint8_t  q;
 }ptr_t;
 
 typedef enum {
@@ -157,7 +165,7 @@ typedef union {
     uint8_t  q;
 
     // X/Y/Z
-    ptr_t   XZY;
+    ptr_t   XYZ;
 
 }Operand;
 
@@ -175,7 +183,7 @@ typedef struct {
 }Instruction;
 
 Instruction decode (word_t*, word_t* limit);
-void decode_operands (Instruction*);
+void decode_operands (Instruction*, word_t*);
 Opcode identify (word_t*);
 
 

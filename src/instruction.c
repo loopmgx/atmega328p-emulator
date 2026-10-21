@@ -1,6 +1,6 @@
 #include "./../include/instruction.h"
 #include "./../include/error.h"
-
+#include <stdint.h>
 
 Instruction decode(word_t* w, word_t* limit)
 {
@@ -11,14 +11,131 @@ Instruction decode(word_t* w, word_t* limit)
     Instruction ins;
 
     ins.type = identify(w);
-    decode_operands(&ins);
-
+    decode_operands(&ins, w);
     return ins;
 }
 
-void decode_operands(Instruction *ins)
+void decode_operands(Instruction *ins, word_t* w)
 {
-    // to do LD, LPM, ST
+    if(ins->type == INS_LPM) {
+        if(*w == 0x95C8) {
+
+        }
+        if((*w & 0xFE0F) == 0x9004) {
+            ins->ope1.R = ((*w >> 4) & 0x1F);
+            ins->ope2.XYZ.type = PTR_Z;
+        }
+        if((*w & 0xFE0F) == 0x9005) {
+            ins->ope1.R = ((*w >> 4) & 0x1F);
+            ins->ope2.XYZ.type = PTR_Z_P;
+        }
+    }
+
+    if(ins->type == INS_ST) {
+
+        // X
+        if((*w & 0xFE0F) == 0x920C) {
+            ins->ope1.XYZ.type = PTR_X;
+        }
+        if((*w & 0xFE0F) == 0x920D) {
+            ins->ope1.XYZ.type = PTR_X_P;
+            ins->ope1.XYZ.q = 0;
+        }
+        if((*w & 0xFE0F) == 0x920E) {
+            ins->ope1.XYZ.type = PTR_X_M;
+        }
+
+        // Y
+        if((*w & 0xFE0F) == 0x8208) {
+            ins->ope1.XYZ.type = PTR_Y;
+        }
+        if((*w & 0xFE0F) == 0x9209) {
+            ins->ope1.XYZ.type = PTR_Y_P;
+            ins->ope1.XYZ.q = 0;
+        }
+        if((*w & 0xFE0F) == 0x920A) {
+            ins->ope1.XYZ.type = PTR_Y_M;
+        }
+        if((*w & 0xD208) == 0x920A) {
+            ins->ope1.XYZ.type = PTR_Y_Q;
+            ins->ope1.XYZ.q = ((*w >> 8) & 0x20)
+                            | ((*w >> 7) & 0x18)
+                            | (*w & 0x07);
+        }
+
+        // Z
+        if((*w & 0xFE0F) == 0x8200) {
+            ins->ope1.XYZ.type = PTR_Z;
+        }
+        if((*w & 0xFE0F) == 0x9201) {
+            ins->ope1.XYZ.type = PTR_Z_P;
+            ins->ope1.XYZ.q = 0;
+        }
+        if((*w & 0xFE0F) == 0x9202) {
+            ins->ope1.XYZ.type = PTR_Z_M;
+        }
+        if((*w & 0xD208) == 0x8200) {
+            ins->ope1.XYZ.type = PTR_Z_Q;
+            ins->ope1.XYZ.q = ((*w >> 8) & 0x20)
+                            | ((*w >> 7) & 0x18)
+                            | (*w & 0x07);
+        }
+
+        ins->ope2.R = (*w >> 4) & 0x1F;
+    }
+
+    // xxxx xxxd dddd xxxx | xxqx qqxd dddd xqqq
+    if(ins->type == INS_LD) {
+        ins->ope1.R = (*w >> 4) & 0x1F;
+
+        // X
+        if((*w & 0xFE0F) == 0x900C) {
+            ins->ope2.XYZ.type = PTR_X;
+        }
+        if((*w & 0xFE0F) == 0x900D) {
+            ins->ope2.XYZ.type = PTR_X_P;
+            ins->ope2.XYZ.q = 0;
+        }
+        if((*w & 0xFE0F) == 0x900E) {
+            ins->ope2.XYZ.type = PTR_X_M;
+        }
+
+        // Y
+        if((*w & 0xFE0F) == 0x8008) {
+            ins->ope2.XYZ.type = PTR_Y;
+        }
+        if((*w & 0xFE0F) == 0x9009) {
+            ins->ope2.XYZ.type = PTR_Y_P;
+            ins->ope2.XYZ.q = 0;
+        }
+        if((*w & 0xFE0F) == 0x900A) {
+            ins->ope2.XYZ.type = PTR_Y_M;
+        }
+        if((*w & 0xD208) == 0x8008) {
+            ins->ope2.XYZ.type = PTR_Y_Q;
+            ins->ope2.XYZ.q = ((*w >> 8) & 0x20)
+                            | ((*w >> 7) & 0x18)
+                            | (*w & 0x07);
+        }
+
+        // Z
+        if((*w & 0xFE0F) == 0x8000) {
+            ins->ope2.XYZ.type = PTR_Z;
+        }
+        if((*w & 0xFE0F) == 0x9001) {
+            ins->ope2.XYZ.type = PTR_Z_P;
+            ins->ope2.XYZ.q = 0;
+        }
+        if((*w & 0xFE0F) == 0x9002) {
+            ins->ope2.XYZ.type = PTR_Z_M;
+        }
+        if((*w & 0xD208) == 0x8000) {
+            ins->ope2.XYZ.type = PTR_Z_Q;
+            ins->ope2.XYZ.q = ((*w >> 8) & 0x20)
+                            | ((*w >> 7) & 0x18)
+                            | (*w & 0x07);
+        }
+    }
 
     // xxxx xxrd dddd rrrr
     if(
@@ -35,31 +152,40 @@ void decode_operands(Instruction *ins)
         ins->type == INS_SBC  ||
         ins->type == INS_SUB
 
-    ) {}
+    ) {
+        ins->ope1.R = (*w >> 4) & 0x1F;
+        ins->ope2.R = (*w & 0x0F) | ((*w >> 5) & 0x10);
+        return;
+    }
 
     // xxxx xxxx dddd rrrr
     if(
         ins->type == INS_MOVW ||
         ins->type == INS_MULS
-    ) {}
+    ) {
+        ins->ope1.R = (*w & 0x0F);
+        ins->ope2.R = ((*w >> 4) & 0x0F);
+    }
 
     // xxxx xxxx xddd xrrr
     if(
-        ins->type == INS_MULSU
-    ) {}
-
-    // xxxx xxxx xddd xrrr
-    if(
+        ins->type == INS_MULSU  ||
         ins->type == INS_FMUL   ||
         ins->type == INS_FMULS  ||
         ins->type == INS_FMULSU
-    ) {}
+    ) {
+        ins->ope1.R = (*w & 0x07);
+        ins->ope2.K = ((*w >> 4) & 0x07);
+    }
 
     // xxxx xxxx KKdd KKKK
     if(
         ins->type == INS_ADIW ||
         ins->type == INS_SBIW
-    ) {}
+    ) {
+        ins->ope1.R = (*w & 0x30);
+        ins->ope2.K = (*w & 0xCF);
+    }
 
     // xxxx KKKK dddd KKKK
     if(
@@ -70,7 +196,10 @@ void decode_operands(Instruction *ins)
         ins->type == INS_SBCI || 
         ins->type == INS_SBR  ||
         ins->type == INS_SUBI
-    ) {}
+    ) {
+        ins->ope1.R = (*w & 0xF0);
+        ins->ope2.K = (*w & 0xF) | ((*w >> 4) & 0xF0);
+    }
 
     // xxxx xxxd dddd xxxx
     if(
@@ -84,37 +213,56 @@ void decode_operands(Instruction *ins)
         ins->type == INS_PUSH ||
         ins->type == INS_ROR  ||
         ins->type == INS_SWAP
-    ) {}
+    ) {
+        ins->ope1.R = (*w >> 4) & 0x1F;
+    }
 
     // xxxx xxxx xsss xxxx
     if(
         ins->type == INS_BCLR ||
         ins->type == INS_BSET
-    ) {}
+    ) {
+        ins->ope1.s = (*w >> 4) & 0x7;
+    }
 
     // xxxx xxxd dddd xbbb
     if(
         ins->type == INS_BLD ||
         ins->type == INS_BST
-    ) {}
+    ) {
+        ins->ope1.s = (*w >> 4) & 0x1F;
+        ins->ope2.b = *w & 0x7;
+    }
 
     // xxxx xxkk kkkk ksss
     if(
         ins->type == INS_BRBC ||
         ins->type == INS_BRBS
-    ) {}
+    ) {
+        ins->ope1.s = *w & 0x7;
+        ins->ope1.k = (*w >> 3) & 0x7F;
+    }
 
     // xxxx xxxk kkkk xxxk . kkkk kkkk kkkk kkkk
     if(
         ins->type == INS_CALL ||
         ins->type == INS_JMP
-    ) {}
+    ) {
+        uint16_t addr =
+            ((*w & 0x01F0) >> 3) |
+            ((*(w + 1) & 0x3FFF) << 2);
+
+        ins->ope1.K = addr;
+    }
 
     // xxxx xxxd dddd xxxx . kkkk kkkk kkkk kkkk
     if(
         ins->type == INS_LDS ||
         ins->type == INS_STS
-    ) {}
+    ) {
+        ins->ope1.K = *(w + 1);
+        ins->ope2.R = (*w >> 4) & 0x1F;
+    }
 
     // xxxx xxxx AAAA Abbb
     if(
@@ -122,36 +270,42 @@ void decode_operands(Instruction *ins)
         ins->type == INS_SBI  ||
         ins->type == INS_SBIC ||
         ins->type == INS_SBIS
-    ) {}
-
-    // xxxx xxxx KKKK xxxx
-    if(
-        ins->type == INS_DES
-    ) {}
+    ) {
+       ins->ope1.A = (*w >> 3) & 0x1F;
+       ins->ope2.b = *w & 0x7;
+    }
 
     // xxxx xxdd dddd dddd
     if(
         ins->type == INS_LSL ||
         ins->type == INS_ROL 
-    ) {}
+    ) {
+        ins->ope1.R = (*w >> 4) & 0x1F;
+    }
 
     // xxxx xAAr rrrr AAAA
     if(
         ins->type == INS_OUT
-    ) {}
+    ) {
+        ins->ope1.A = (*w & 0xf) | ((*w >> 5) & 0x30);
+        ins->ope2.R = ((*w >> 4) & 0x1F);
+    }
 
     // xxxx kkkk kkkk kkkk
     if(
         ins->type == INS_RCALL ||
         ins->type == INS_RJMP
-    ) {}
+    ) {
+        ins->ope1.K = *w & 0xFFF;
+    }
 
     // xxxx xxxr rrrr xbbb
     if(
         ins->type == INS_SBRS
-    ) {}
-
-
+    ) {
+        ins->ope1.R = (*w >> 4) & 0x1F;
+        ins->ope2.b = *w & 0x7;
+    }
 }
 
 Opcode identify(word_t* w)
