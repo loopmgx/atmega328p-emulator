@@ -194,7 +194,6 @@ void decode_operands(Instruction *ins, word_t* w)
         ins->type == INS_LDI  ||
         ins->type == INS_ORI  ||
         ins->type == INS_SBCI || 
-        ins->type == INS_SBR  ||
         ins->type == INS_SUBI
     ) {
         ins->ope1.R = (*w & 0xF0);
@@ -275,14 +274,6 @@ void decode_operands(Instruction *ins, word_t* w)
        ins->ope2.b = *w & 0x7;
     }
 
-    // xxxx xxdd dddd dddd
-    if(
-        ins->type == INS_LSL ||
-        ins->type == INS_ROL 
-    ) {
-        ins->ope1.R = (*w >> 4) & 0x1F;
-    }
-
     // xxxx xAAr rrrr AAAA
     if(
         ins->type == INS_OUT
@@ -326,9 +317,6 @@ Opcode identify(word_t* w)
     if((*w & 0xFF8F) == 0x9488) return INS_BCLR;
     if((*w & 0xFF8F) == 0x9408) return INS_BSET;
 
-    // xxxx xxxx KKKK xxxx
-    if((*w & 0xFF0F) == 0x940B) return INS_DES;
-
     // xxxx xxxd dddd xxxx
     if((*w & 0xFE0F) == 0x940A) return INS_DEC;
     if((*w & 0xFE0F) == 0x9004) return INS_LPM;
@@ -365,12 +353,9 @@ Opcode identify(word_t* w)
     if((*w & 0xFE0F) == 0x9202) return INS_ST;
     if((*w & 0xD208) == 0x8200) return INS_ST;
     if((*w & 0xFE0F) == 0x9200) return INS_STS;
-//
 
     // xxxx xxxk kkkk xxxx
     if((*w & 0xFE0F) == 0x9400) return INS_COM;
-    if((*w & 0xFE0F) == 0x9206) return INS_LAC;
-    if((*w & 0xFE0F) == 0x9205) return INS_LAS;
     if((*w & 0xFE0F) == 0x900F) return INS_POP;
     if((*w & 0xFE0F) == 0x920F) return INS_PUSH;
     if((*w & 0xFE0F) == 0x9402) return INS_SWAP;
@@ -386,10 +371,6 @@ Opcode identify(word_t* w)
 
     
     // xxxx xxkk kkkk kxxx
-    if((*w & 0xFC07) == 0xF001) return INS_BREQ;
-    if((*w & 0xFC07) == 0xF005) return INS_BRHS;
-    if((*w & 0xFC07) == 0xF404) return INS_BRGE;
-    if((*w & 0xFC07) == 0xF405) return INS_BRHC;
     if((*w & 0xFE0F) == 0x9000) return INS_LDS;
     
     if((*w & 0xF800) == 0xA000) return INS_LDS;
@@ -449,7 +430,6 @@ Opcode identify(word_t* w)
     // xxxx KKKK dddd KKKK
     if((*w & 0xF000) == 0x3000) return INS_CPI;
     if((*w & 0xF000) == 0x6000) return INS_ORI;
-    // if((*w & 0xF000) == 0xD000) return INS_ORI;
     if((*w & 0xF000) == 0xC000) return INS_RJMP;
     if((*w & 0xF000) == 0x4000) return INS_SBCI;
     if((*w & 0xF000) == 0x5000) return INS_SUBI;
